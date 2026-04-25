@@ -48,3 +48,4 @@ def generate_circles(n_samples, noise, seed):
         n_samples=n_samples, noise=circle_noise, factor=0.5, random_state=seed
     )
     return X, y
+
