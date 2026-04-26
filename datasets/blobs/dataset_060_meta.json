@@ -1,0 +1,13 @@
+{
+  "dataset_id": "blobs_060",
+  "shape": "blobs",
+  "index": 60,
+  "seed": 4442,
+  "n_samples": 395,
+  "n_features": 3,
+  "n_clusters": 7,
+  "cluster_std": 2.219860349811346,
+  "noise": 0.07299696349564103,
+  "actual_n_samples": 395,
+  "actual_n_features": 3
+}

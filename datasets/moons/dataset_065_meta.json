@@ -1,0 +1,12 @@
+{
+  "dataset_id": "moons_065",
+  "shape": "moons",
+  "index": 65,
+  "seed": 55324,
+  "n_samples": 912,
+  "n_features": 2,
+  "n_clusters": 2,
+  "noise": 0.23233101809255088,
+  "actual_n_samples": 912,
+  "actual_n_features": 2
+}

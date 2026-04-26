@@ -1,0 +1,12 @@
+{
+  "dataset_id": "circles_088",
+  "shape": "circles",
+  "index": 88,
+  "seed": 15808,
+  "n_samples": 996,
+  "n_features": 2,
+  "n_clusters": 2,
+  "noise": 0.25329692441373325,
+  "actual_n_samples": 996,
+  "actual_n_features": 2
+}

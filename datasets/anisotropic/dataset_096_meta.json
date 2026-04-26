@@ -1,0 +1,23 @@
+{
+  "dataset_id": "anisotropic_096",
+  "shape": "anisotropic",
+  "index": 96,
+  "seed": 32760,
+  "n_samples": 425,
+  "n_features": 2,
+  "n_clusters": 7,
+  "cluster_std": 1.1917924338793806,
+  "noise": 0.09601356203437597,
+  "actual_n_samples": 425,
+  "actual_n_features": 2,
+  "transformation": [
+    [
+      -0.9021505611337395,
+      0.49645555998187213
+    ],
+    [
+      1.5512041496017437,
+      -1.6042060135408562
+    ]
+  ]
+}

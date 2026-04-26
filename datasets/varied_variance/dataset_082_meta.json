@@ -1,0 +1,17 @@
+{
+  "dataset_id": "varied_variance_082",
+  "shape": "varied_variance",
+  "index": 82,
+  "seed": 64072,
+  "n_samples": 118,
+  "n_features": 4,
+  "n_clusters": 2,
+  "cluster_std": 1.3424585890602796,
+  "noise": 0.0015798352470973054,
+  "actual_n_samples": 118,
+  "actual_n_features": 4,
+  "cluster_stds": [
+    2.499429454285261,
+    2.6616047011422084
+  ]
+}
