@@ -8,8 +8,6 @@ from scipy.stats import skew, kurtosis
 
 """
 Extracts two families of meta-features per dataset:
-
-PyMFE groups (Rivolli et al.):
   general    — sample count, feature count, dimensionality ratio, class imbalance
   statistical — correlations, kurtosis, skewness, PCA variance explained
 
@@ -55,7 +53,7 @@ def extract_meta_features(X, y):
     try:
         mfe = MFE(groups=PYMFE_GROUPS, suppress_warnings=True)
         mfe.fit(X, y)
-        names, values = mfe.extract(suppress_warnings=True)
+        names, values = mfe.extract(suppress_warnings=Tru   e)
         features.update(dict(zip(names, values)))
     except Exception as e:
         print(f"  Warning: MFE extraction error: {e}")
