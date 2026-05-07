@@ -53,7 +53,7 @@ def extract_meta_features(X, y):
     try:
         mfe = MFE(groups=PYMFE_GROUPS, suppress_warnings=True)
         mfe.fit(X, y)
-        names, values = mfe.extract(suppress_warnings=Tru   e)
+        names, values = mfe.extract(suppress_warnings=True)
         features.update(dict(zip(names, values)))
     except Exception as e:
         print(f"  Warning: MFE extraction error: {e}")
@@ -98,7 +98,7 @@ def main():
 
     df = pd.DataFrame(rows).set_index("dataset_id")
 
-    # Impute remaining NaN with column means (some PyMFE measures can be undefined)
+    # Impute remaining NaN with column means value (some PyMFE measures can be undefined)
     numeric_cols = df.select_dtypes(include=np.number).columns
     df[numeric_cols] = df[numeric_cols].fillna(df[numeric_cols].mean())
 
@@ -107,7 +107,12 @@ def main():
     print(f"\nSaved meta-features to '{output_file}'")
     print(f"  Rows: {df.shape[0]}, Total columns: {df.shape[1]}")
     print(f"  Numeric meta-features: {len(numeric_cols)}")
-
+    # Show a sample characterisation
+    sample = df.iloc[499]
+    print(f"\nSample meta-feature vector for '{sample.name}':")
+    print(f"  Shape type: {sample['shape']}")
+    print(f"  Features: {len(numeric_cols)} numeric values characterising this dataset")
+    print(f"  First 5: {dict(list(zip(numeric_cols[:5], sample[numeric_cols[:5]])))}")
 
 if __name__ == "__main__":
     main()
