@@ -1,0 +1,5 @@
+,accuracy,best_params
+RandomForest,0.57,"{'max_depth': 5, 'n_estimators': 200}"
+GradientBoosting,0.55,"{'learning_rate': 0.01, 'n_estimators': 50}"
+SVM,0.58,"{'C': 1, 'kernel': 'linear'}"
+KNN,0.47,{'n_neighbors': 9}

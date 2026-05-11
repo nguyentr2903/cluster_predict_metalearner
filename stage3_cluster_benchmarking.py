@@ -24,7 +24,6 @@ datasets_dir = "datasets"
 
 
 def run_kmeans(X, n_clusters, seed):
-    """Centroid-based: assigns points to nearest mean. Needs n_clusters."""
     model = KMeans(n_clusters=n_clusters, n_init=10, random_state=seed)
     return model.fit_predict(X)
 
@@ -39,17 +38,9 @@ def run_agglomerative(X, n_clusters):
     return model.fit_predict(X)
 
 
-def estimate_dbscan_eps(X):
-    """Estimate the neighbourhood radius (eps) for DBSCAN using the
-    k-nearest-neighbour distance elbow method.
 
-    1) For each point, compute the distance to its k-th nearest neighbour
-    (where k = 2 * dimensionality). 
-    2) Sort these distances to produce the
-    k-distance plot. 
-    3) The elbow marks the natural boundary between dense cluster regions and sparse gaps.
-    That distance becomes eps.
-    """
+def estimate_dbscan_eps(X):
+
     # k = 2 * dimensionality is a standard heuristic for DBSCAN
     # cap at n_samples - 1 so we don't request more neighbours than exist
     k = min(2 * X.shape[1], X.shape[0] - 1)
@@ -76,7 +67,16 @@ def estimate_dbscan_eps(X):
     if eps <= 0 or np.isnan(eps):
         return 0.5
     return eps
+"""Estimate the neighbourhood radius (eps) for DBSCAN using the
+    k-nearest-neighbour distance elbow method.
 
+    1) For each point, compute the distance to its k-th nearest neighbour
+    (where k = 2 * dimensionality). 
+    2) Sort these distances to produce the
+    k-distance plot. 
+    3) The elbow marks the natural boundary between dense cluster regions and sparse gaps.
+    That distance becomes eps.
+ """
 
 def run_dbscan(X):
     eps = estimate_dbscan_eps(X)
@@ -180,3 +180,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+

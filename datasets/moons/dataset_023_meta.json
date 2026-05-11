@@ -2,11 +2,11 @@
   "dataset_id": "moons_023",
   "shape": "moons",
   "index": 23,
-  "seed": 39599,
-  "n_samples": 433,
+  "seed": 65140,
+  "n_samples": 628,
   "n_features": 2,
   "n_clusters": 2,
-  "noise": 0.08933094832033012,
-  "actual_n_samples": 433,
+  "noise": 0.18532091181291313,
+  "actual_n_samples": 628,
   "actual_n_features": 2
 }

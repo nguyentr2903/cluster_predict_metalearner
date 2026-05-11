@@ -2,12 +2,12 @@
   "dataset_id": "blobs_057",
   "shape": "blobs",
   "index": 57,
-  "seed": 62419,
-  "n_samples": 184,
-  "n_features": 3,
-  "n_clusters": 8,
-  "cluster_std": 0.8335906167171008,
-  "noise": 0.03917743150403027,
-  "actual_n_samples": 184,
-  "actual_n_features": 3
+  "seed": 5154,
+  "n_samples": 140,
+  "n_features": 7,
+  "n_clusters": 6,
+  "cluster_std": 1.3030051751181941,
+  "noise": 0.13943347801127653,
+  "actual_n_samples": 140,
+  "actual_n_features": 7
 }

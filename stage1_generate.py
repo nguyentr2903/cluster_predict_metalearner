@@ -3,12 +3,11 @@ import os
 import json
 from sklearn.datasets import make_blobs, make_moons, make_circles
 from sklearn.preprocessing import StandardScaler
-
-output_dir = "datasets"
-datasets_per_shape = 100
-random_seed_base = 42
-
-SHAPES = ["blobs", "anisotropic", "varied_variance", "moons", "circles"]
+from config import (
+    SHAPES, DATASETS_PER_SHAPE, RANDOM_SEED, 
+    DATASETS_DIR, N_SAMPLES_RANGE, N_FEATURES_RANGE,
+    N_CLUSTERS_RANGE, CLUSTER_STD_RANGE, NOISE_RANGE
+)
 
 
 def generate_blobs(n_samples, n_features, n_clusters, cluster_std, noise, seed, rng):
@@ -68,13 +67,13 @@ def generate_circles(n_samples, noise, seed):
 
 
 def sample_params(shape, rng):
-    n_samples = int(rng.integers(100, 1001))
-    noise = float(rng.uniform(0.0, 0.3))
+    n_samples = int(rng.integers(*N_SAMPLES_RANGE))
+    noise = float(rng.uniform(*NOISE_RANGE))
 
     if shape in ("blobs", "anisotropic", "varied_variance"):
-        n_features = int(rng.integers(2, 11))
-        n_clusters = int(rng.integers(2, 9))
-        cluster_std = float(rng.uniform(0.3, 2.5))
+        n_features = int(rng.integers(*N_FEATURES_RANGE))
+        n_clusters = int(rng.integers(*N_CLUSTERS_RANGE))
+        cluster_std = float(rng.uniform(*CLUSTER_STD_RANGE))
         return {
             "n_samples": n_samples,
             "n_features": n_features,
@@ -89,8 +88,6 @@ def sample_params(shape, rng):
             "n_clusters": 2,
             "noise": noise,
         }
-
-
 def generate_dataset(shape, params, seed, rng):
     if shape == "blobs":
         return generate_blobs(
@@ -116,7 +113,7 @@ def generate_dataset(shape, params, seed, rng):
 
 
 def save_dataset(X, y, metadata, shape, idx):
-    shape_dir = os.path.join(output_dir, shape)
+    shape_dir = os.path.join(DATASETS_DIR, shape)
     os.makedirs(shape_dir, exist_ok=True)
     prefix = os.path.join(shape_dir, f"dataset_{idx:03d}")
     np.save(f"{prefix}.npy", X)
@@ -126,15 +123,15 @@ def save_dataset(X, y, metadata, shape, idx):
 
 
 def main():
-    rng = np.random.default_rng(random_seed_base)
-    os.makedirs(output_dir, exist_ok=True)
+    rng = np.random.default_rng(RANDOM_SEED)
+    os.makedirs(DATASETS_DIR, exist_ok=True)
 
     scaler = StandardScaler()
     all_metadata = []
 
     for shape in SHAPES:
-        print(f"Generating {datasets_per_shape} datasets for shape: {shape}")
-        for i in range(datasets_per_shape):
+        print(f"Generating {DATASETS_PER_SHAPE} datasets for shape: {shape}")
+        for i in range(DATASETS_PER_SHAPE):
             seed = int(rng.integers(0, 100_000))
             params = sample_params(shape, rng)
             X, y, extra = generate_dataset(shape, params, seed, rng)
@@ -154,15 +151,15 @@ def main():
             all_metadata.append(metadata)
 
             if (i + 1) % 25 == 0:
-                print(f"  {i + 1}/{datasets_per_shape} done")
+                print(f"  {i + 1}/{DATASETS_PER_SHAPE} done")
 
-    with open(os.path.join(output_dir, "metadata.json"), "w") as f:
+    with open(os.path.join(DATASETS_DIR, "metadata.json"), "w") as f:
         json.dump(all_metadata, f, indent=2)
 
-    print(f"\nDone. Generated {len(all_metadata)} datasets in '{output_dir}/'")
+    print(f"\nDone. Generated {len(all_metadata)} datasets in '{DATASETS_DIR}/'")
     print(f"  Shapes: {SHAPES}")
-    print(f"  Per shape: {datasets_per_shape}")
+    print(f"  Per shape: {DATASETS_PER_SHAPE}")
 
 
-if __name__ == "__main__":
+if __name__ == "__main__": #run this code only if the script is executed directly 
     main()

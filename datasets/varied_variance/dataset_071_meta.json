@@ -2,21 +2,18 @@
   "dataset_id": "varied_variance_071",
   "shape": "varied_variance",
   "index": 71,
-  "seed": 68606,
-  "n_samples": 311,
-  "n_features": 10,
-  "n_clusters": 7,
-  "cluster_std": 1.7897596403287803,
-  "noise": 0.2458902891471376,
-  "actual_n_samples": 311,
-  "actual_n_features": 10,
+  "seed": 46121,
+  "n_samples": 363,
+  "n_features": 2,
+  "n_clusters": 4,
+  "cluster_std": 0.9442853802766962,
+  "noise": 0.2981772063221313,
+  "actual_n_samples": 363,
+  "actual_n_features": 2,
   "cluster_stds": [
-    1.6411039147448652,
-    1.3894967995658256,
-    2.616135290078997,
-    0.8302334273854224,
-    2.3004436109048996,
-    2.3852047220052115,
-    1.374497329007443
+    1.5687164840514407,
+    2.421287625703245,
+    1.1275653382703998,
+    1.3800592782842327
   ]
 }

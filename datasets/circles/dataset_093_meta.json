@@ -2,11 +2,11 @@
   "dataset_id": "circles_093",
   "shape": "circles",
   "index": 93,
-  "seed": 34085,
-  "n_samples": 849,
+  "seed": 88811,
+  "n_samples": 853,
   "n_features": 2,
   "n_clusters": 2,
-  "noise": 0.23157415185818578,
-  "actual_n_samples": 849,
+  "noise": 0.22226818022065897,
+  "actual_n_samples": 853,
   "actual_n_features": 2
 }
