@@ -103,6 +103,10 @@ print(classification_report(y_test, y_pred_random, zero_division=0))
 print("--- Always-KMeans Baseline ---")
 print(classification_report(y_test, y_pred_kmeans, zero_division=0))
 
+y_pred_oracle = y_test.copy()
+print("--- Oracle ---")
+print(classification_report(y_test, y_pred_oracle, zero_division=0))
+
 # --- Feature Importance (RQ1) ---
 rf_model = results["RandomForest"]["model"]
 importances = pd.Series(rf_model.feature_importances_, index=X.columns)
