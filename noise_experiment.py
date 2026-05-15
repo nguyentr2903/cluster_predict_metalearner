@@ -208,7 +208,8 @@ def evaluate_noise_experiment(trained_model, training_features):
         subset = df[df["noise_level"] == level]
         acc = subset["correct"].mean()
         print(f"  Noise {level:.2f}: {acc:.4f} ({subset['correct'].sum()}/{len(subset)})")
-
+        df.to_csv("noise_experiment_results.csv")
+        print("Saved detailed results to noise_experiment_results.csv")
     return df
 
 if __name__ == "__main__":
@@ -219,3 +220,4 @@ if __name__ == "__main__":
         print(f"\n=== {name} ===")
         model = results[name]["model"]
         evaluate_noise_experiment(model, training_features)
+
