@@ -64,25 +64,7 @@ classifiers = {
     },
 }
 
-results = {}
-for name, config in classifiers.items():
-    print(f"\n--- {name} ---")
-    gs = GridSearchCV(
-        config["model"], config["params"],
-        cv=5, scoring="accuracy", n_jobs=-1,
-    )
-    gs.fit(X_train, y_train)
-    y_pred = gs.predict(X_test)
 
-    print(f"Best params: {gs.best_params_}")
-    print(f"Test accuracy: {gs.score(X_test, y_test):.4f}")
-    print(classification_report(y_test, y_pred, zero_division = 0))
-
-    results[name] = {
-        "best_params": gs.best_params_,
-        "test_accuracy": gs.score(X_test, y_test),
-        "model": gs.best_estimator_,
-    }
 # majority class: always predict the most common label
 majority_class = y_train.value_counts().index[0]
 y_pred_majority = [majority_class] * len(y_test)
@@ -99,7 +81,32 @@ print(classification_report(y_test, y_pred_majority, zero_division=0))
 
 print("--- Random Baseline ---")
 print(classification_report(y_test, y_pred_random, zero_division=0))
+print("Confusion matrix:")
+print(confusion_matrix(y_test, y_pred, labels=gs.classes_))
+print("Labels:", list(gs.classes_))
 
+results = {}
+for name, config in classifiers.items():
+    print(f"\n--- {name} ---")
+    gs = GridSearchCV(
+        config["model"], config["params"],
+        cv=5, scoring="accuracy", n_jobs=-1,
+    )
+    gs.fit(X_train, y_train)
+    y_pred = gs.predict(X_test)
+
+    print(f"Best params: {gs.best_params_}")
+    print(f"Test accuracy: {gs.score(X_test, y_test):.4f}")
+    print(classification_report(y_test, y_pred, zero_division=0))
+    print("Confusion matrix:")
+    print(confusion_matrix(y_test, y_pred, labels=gs.classes_))
+    print("Labels:", list(gs.classes_))
+
+    results[name] = {
+        "best_params": gs.best_params_,
+        "test_accuracy": gs.score(X_test, y_test),
+        "model": gs.best_estimator_,
+    }
 # --- Feature Importance (RQ1) ---
 rf_model = results["RandomForest"]["model"]
 importances = pd.Series(rf_model.feature_importances_, index=X.columns)
@@ -120,3 +127,5 @@ summary.to_csv("model_results.csv")
 # save feature importances
 importances.sort_values(ascending=False).to_csv("feature_importances.csv")
 joblib.dump(results, "trained_models.joblib")
+
+
