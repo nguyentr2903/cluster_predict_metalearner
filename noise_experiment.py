@@ -15,9 +15,9 @@ import pandas as pd
 '''THE IDEA: noise experiment generates new test datasets at controlled noise levels, extracts their metafeatures,
 gets their true best-algorithm labels, and checks whether the model's predictions get worse as noise increases'''
 '''generate 20 datasets per shape'''
-NOISE_LEVELS = [0.0, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3]
+NOISE_LEVELS = [0.0, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.65, 0.95]
 SHAPES = ["blobs", "anisotropic", "varied_variance", "moons", "circles"]
-DATASETS_PER_SHAPE = 20  # smaller batch per noise level
+DATASETS_PER_SHAPE = 20
 OUTPUT_DIR = "noise_experiment"
 N_SAMPLES = 100_000
 
@@ -123,46 +123,8 @@ def sample_params(shape, rng):
             "n_clusters": 2,
             "noise": noise,
         }
-def generate_datasets ():
-    rng = np.random.default_rng(42)
-    scaler = StandardScaler()
-    all_metadata = []
-    os.makedirs(OUTPUT_DIR, exist_ok= True)
-    for noise_level in NOISE_LEVELS: #outer loop is at noise_level = 0.1
-        print(f"Noise level: {noise_level}") 
-        for shape in SHAPES: 
-            for i in range(DATASETS_PER_SHAPE):
-                seed = int(rng.integers(0, N_SAMPLES))
-                params  = sample_params(shape,rng) 
-                params["noise"] = noise_level #sample params generate params["noise"]=0.17 randomly 
 
-                X, y, extra = generate_dataset(shape, params, seed, rng)
-                X = scaler.fit_transform(X)
-                dataset_id = f"{shape}_{noise_level:.2f}_{i:03d}"
-                metadata = {
-                    "dataset_id": dataset_id,
-                    "shape": shape,
-                    "noise_level": noise_level,
-                    "index": i,
-                    "seed": seed,
-                    **params,
-                }
-
-                shape_dir = os.path.join(OUTPUT_DIR, f"noise_{noise_level:.2f}", shape)
-                os.makedirs(shape_dir, exist_ok=True)
-                prefix = os.path.join(shape_dir, f"dataset_{i:03d}")
-                np.save(f"{prefix}.npy", X)
-                np.save(f"{prefix}_labels.npy", y)
-
-                all_metadata.append(metadata)
-            
-    with open(os.path.join(OUTPUT_DIR, "metadata.json"), "w") as f:
-        json.dump(all_metadata, f, indent=2)
-
-    print(f"\nGenerated {len(all_metadata)} datasets across {len(NOISE_LEVELS)} noise levels")
-
-
-def evaluate_noise_experiment(trained_model, training_features):
+def evaluate_noise_experiment(trained_model, training_features, model_name):
     metadata_path = os.path.join(OUTPUT_DIR, "metadata.json")
     with open(metadata_path) as f:
         all_metadata = json.load(f)
@@ -208,8 +170,9 @@ def evaluate_noise_experiment(trained_model, training_features):
         subset = df[df["noise_level"] == level]
         acc = subset["correct"].mean()
         print(f"  Noise {level:.2f}: {acc:.4f} ({subset['correct'].sum()}/{len(subset)})")
-        df.to_csv("noise_experiment_results.csv")
-        print("Saved detailed results to noise_experiment_results.csv")
+    output_file = f"noise_experiment_results_{model_name}.csv"
+    df.to_csv(output_file, index=False)
+    print(f"Saved detailed results to {output_file}") 
     return df
 
 if __name__ == "__main__":
@@ -219,5 +182,5 @@ if __name__ == "__main__":
     for name in ["RandomForest", "GradientBoosting", "SVM", "KNN"]:
         print(f"\n=== {name} ===")
         model = results[name]["model"]
-        evaluate_noise_experiment(model, training_features)
+        evaluate_noise_experiment(model, training_features, name)
 

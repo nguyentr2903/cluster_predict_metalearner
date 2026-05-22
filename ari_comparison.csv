@@ -1,0 +1,6 @@
+strategy,mean_test_ari
+GradientBoosting,0.8161226999432567
+RandomForest,0.8057012096087474
+SVM,0.785988609768827
+KNN,0.7598837760426779
+Average across algorithms (baseline),0.6319912593072402

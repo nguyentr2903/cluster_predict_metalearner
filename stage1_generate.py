@@ -126,7 +126,7 @@ def main():
     rng = np.random.default_rng(RANDOM_SEED)
     os.makedirs(DATASETS_DIR, exist_ok=True)
 
-    scaler = StandardScaler()
+    
     all_metadata = []
 
     for shape in SHAPES:
@@ -134,8 +134,13 @@ def main():
         for i in range(DATASETS_PER_SHAPE):
             seed = int(rng.integers(0, 100_000))
             params = sample_params(shape, rng)
+            # Generate dataset
             X, y, extra = generate_dataset(shape, params, seed, rng)
+            # Standardize to zero mean and unit variance
+            scaler = StandardScaler()
             X = scaler.fit_transform(X)
+            
+          # Save dataset and dataset’s metadata 
 
             metadata = {
                 "dataset_id": f"{shape}_{i:03d}",
@@ -161,5 +166,5 @@ def main():
     print(f"  Per shape: {DATASETS_PER_SHAPE}")
 
 
-if __name__ == "__main__": #run this code only if the script is executed directly 
+if __name__ == "__main__": 
     main()

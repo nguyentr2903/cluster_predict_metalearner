@@ -72,8 +72,7 @@ def estimate_dbscan_eps(X):
 
     1) For each point, compute the distance to its k-th nearest neighbour
     (where k = 2 * dimensionality). 
-    2) Sort these distances to produce the
-    k-distance plot. 
+    2) Sort these distances to produce the k-distance plot. 
     3) The elbow marks the natural boundary between dense cluster regions and sparse gaps.
     That distance becomes eps.
  """
@@ -90,23 +89,11 @@ def run_hdbscan(X):
     return model.fit_predict(X)
 
 def compute_ari(y_true, y_pred):
-    """Compare predicted cluster labels against ground truth using ARI.
-
-    DBSCAN and HDBSCAN assign label -1 to noise points. These are
-    excluded before computing ARI because the metric cannot handle them.
-    If the result is degenerate (all noise, or only one cluster found),
-    return 0.0 rather than an undefined score.
-    """
     if y_pred is None:
         return np.nan
-
-    # mask out noise points (label -1)
     mask = y_pred != -1
-
-    # degenerate case: fewer than 2 non-noise points, or only 1 cluster
     if mask.sum() < 2 or len(np.unique(y_pred[mask])) < 2:
         return 0.0
-
     return float(adjusted_rand_score(y_true[mask], y_pred[mask]))
 
 def benchmark_dataset(X, y_true, n_clusters, seed):

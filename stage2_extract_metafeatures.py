@@ -6,15 +6,6 @@ from pymfe.mfe import MFE
 from scipy.spatial.distance import pdist
 from scipy.stats import skew, kurtosis
 
-"""
-Extracts two families of meta-features per dataset:
-  general    — sample count, feature count, dimensionality ratio, class imbalance
-  statistical — correlations, kurtosis, skewness, PCA variance explained
-
-Custom distance-based features (Ferrari & de Castro [18]):
-  Mean, std, skewness, and kurtosis of the pairwise Euclidean distance distribution
-"""
-
 datasets_dir = "datasets"
 output_file = "meta_features.csv"
 
@@ -22,12 +13,7 @@ PYMFE_GROUPS = ["general", "statistical"]
 
 
 def extract_distance_features(X):
-    """Compute summary statistics of the pairwise Euclidean distance distribution.
-
-    Following Ferrari & de Castro [18], the full vector of pairwise distances
-    is reduced to four scalar descriptors that characterise the global
-    geometric structure of the dataset.
-    """
+  
     try:
         dists = pdist(X, metric="euclidean")
         return {
